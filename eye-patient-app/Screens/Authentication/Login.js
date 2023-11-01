@@ -39,8 +39,15 @@ export default function Login() {
         </View> */}
       <View>
         <Image
-          style={{ height: "80%", resizeMode: "contain" }}
-          source={require("../../assets/LoginDoctorImage.png")}
+          style={{
+            height: Dimensions.get("screen").height,
+            resizeMode: "contain",
+            width: Dimensions.get("screen").width * 2,
+            position: "relative",
+            top: 0,
+            flex: 1,
+          }}
+          source={require("../../assets/25872124_doctor_consultation_03-removebg.png")}
         />
       </View>
       <View style={styles.bottom}>

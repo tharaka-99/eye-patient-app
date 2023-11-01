@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   Dimensions,
+  Image,
 } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -127,7 +128,7 @@ const Home = () => {
         ref={recaptchaVerifier}
         firebaseConfig={firebaseConfig}
       />
-      <View style={styles.top}>
+      {/* <View style={styles.top}>
         <View style={styles.box}>
           <Svg
             height={170}
@@ -141,98 +142,120 @@ const Home = () => {
             />
           </Svg>
         </View>
-      </View>
-      {!verificationId ? (
-        <View style={{ top: 120 }}>
-          <Text style={styles.otpText}>Verify your </Text>
-          <Text style={styles.otpText}>phone number</Text>
-          <Text
+      </View> */}
+      <View style={{ flex: 1, backgroundColor: "#3498db" }}>
+        <Image
+          style={{
+            height: 200,
+            resizeMode: "contain",
+            // width: Dimensions.get("screen").width * 2,
+            // position: "relative",
+            // top: 0,
+            // flex: 1,
+          }}
+          source={require("../../assets/4744179_2420454_02-removebg-preview.png")}
+        />
+        {!verificationId ? (
+          <View
             style={{
-              color: "gray",
-              fontSize: 17,
-              marginLeft: 30,
-              paddingBottom: 50,
+              flex: 1,
+              // top: 200,
+              borderTopRightRadius: 40,
+              borderTopLeftRadius: 40,
+              backgroundColor: "#fff",
+              paddingTop: 50,
             }}
           >
-            We have send you an One Time Password(OTP) on this mobile number.
-          </Text>
-          {/* <TextInput
+            <Text style={styles.otpText}>Verify your </Text>
+            <Text style={styles.otpText}>phone number</Text>
+            <Text
+              style={{
+                color: "gray",
+                fontSize: 17,
+                marginLeft: 30,
+                paddingBottom: 50,
+              }}
+            >
+              We have send you an One Time Password(OTP) on this mobile number.
+            </Text>
+            {/* <TextInput
         placeholder="Phone Number"
         onChangeText={setPhoneNumber}
         keyboardType="phone-pad"
         autoCompleteType="tel"
         style={styles.textInput}
       /> */}
-          <View
-            style={{
-              marginHorizontal: 20,
-              borderColor: "#000",
-              borderWidth: 1,
-              borderRadius: 5,
-              padding: 2.5,
-            }}
-          >
+            <View
+              style={{
+                marginHorizontal: 20,
+                borderColor: "#000",
+                borderWidth: 1,
+                borderRadius: 5,
+                padding: 2.5,
+              }}
+            >
+              <Text
+                style={{
+                  color: "gray",
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                Enter Mobile Number:
+              </Text>
+              <PhoneInput
+                ref={phoneInput}
+                defaultValue={value}
+                defaultCode="LK"
+                layout="first"
+                // onChangeText={(text) => {
+                //   setValue(text);
+                // }}
+                // onChangeFormattedText={(text) => {
+                //   setFormattedValue(text);
+                // }}
+                // withDarkTheme
+                // withShadow
+                onChangeFormattedText={(text) => {
+                  setPhoneNumber(text);
+                }}
+                autoFocus
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.sendVerification}
+              onPress={sendVerification}
+            >
+              <Text style={styles.buttonText}>Send Verification</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
+        {verificationId ? (
+          <View style={{ top: 120 }}>
+            <Text style={styles.otpText}>OTP Verification </Text>
             <Text
               style={{
                 color: "gray",
                 fontSize: 17,
-                marginLeft: 10,
+                marginLeft: 30,
+                paddingBottom: 50,
               }}
             >
-              Enter Mobile Number:
+              Enter the code from the sms we sent your phone number.
             </Text>
-            <PhoneInput
-              ref={phoneInput}
-              defaultValue={value}
-              defaultCode="LK"
-              layout="first"
-              // onChangeText={(text) => {
-              //   setValue(text);
-              // }}
-              // onChangeFormattedText={(text) => {
-              //   setFormattedValue(text);
-              // }}
-              // withDarkTheme
-              // withShadow
-              onChangeFormattedText={(text) => {
-                setPhoneNumber(text);
-              }}
-              autoFocus
+            <TextInput
+              placeholder="Enter the Confirmation Code"
+              onChangeText={setCode}
+              keyboardType="number-pad"
+              style={styles.textInput}
             />
+            <TouchableOpacity style={styles.sendCode} onPress={confirmCode}>
+              <Text style={styles.buttonText}>Confirm Verification</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.sendVerification}
-            onPress={sendVerification}
-          >
-            <Text style={styles.buttonText}>Send Verification</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null}
-
-      {verificationId ? (
-        <View style={{ top: 120 }}>
-          <Text style={styles.otpText}>OTP Verification </Text>
-          <Text
-            style={{
-              color: "gray",
-              fontSize: 17,
-              marginLeft: 30,
-              paddingBottom: 50,
-            }}
-          >
-            Enter the code from the sms we sent your phone number.
-          </Text>
-          <TextInput
-            placeholder="Enter the Confirmation Code"
-            onChangeText={setCode}
-            keyboardType="number-pad"
-            style={styles.textInput}
-          />
-          <TouchableOpacity style={styles.sendCode} onPress={confirmCode}>
-            <Text style={styles.buttonText}>Confirm Verification</Text>
-          </TouchableOpacity>
-        </View>
-      ) : null}
+        ) : null}
+      </View>
 
       {/* <TextInput
         placeholder="Confirmation Code"

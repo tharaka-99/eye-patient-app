@@ -14,6 +14,7 @@ import SigninPage from "./Screens/Authentication/SigninPage";
 import HomePage from "./Screens/Pages/HomePage";
 import DetailReportView from "./Screens/Pages/DetailReportView";
 import PatientProfile from "./Screens/Pages/PatientProfile";
+import AllPatientReport from "./Screens/Pages/AllPatientReport";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,8 +66,12 @@ export default function App() {
             name="Report"
             component={DetailReportView}
             options={{
-              title: "Report",
+              // title: "Report",
               headerStyle: { backgroundColor: "#fff" },
+              headerTitleStyle: {
+                fontWeight: "bold",
+                color: "#fff",
+              },
               headerShadowVisible: false,
               headerTitleAlign: "center",
               // headerShown: false,
@@ -78,6 +83,20 @@ export default function App() {
             options={{
               title: "Patient's Profile",
               headerStyle: { backgroundColor: "#fff" },
+
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+              // headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="All eye reports"
+            component={AllPatientReport}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerTitleStyle: {
+                color: "#fff",
+              },
               headerShadowVisible: false,
               headerTitleAlign: "center",
               // headerShown: false,

@@ -23,10 +23,11 @@ import { Fontisto } from "@expo/vector-icons";
 export default function HomePage({ route }) {
   // const { user } = route.params;
   const [list, setList] = useState("");
-  const [reports, setReports] = useState(null);
+  const [reports, setReports] = useState([]);
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
   const [patientDetails, setPatientDetails] = useState([]);
+  const [search, setSearch] = useState(false);
 
   useEffect(() => {
     const handleSearch = async () => {
@@ -61,7 +62,7 @@ export default function HomePage({ route }) {
       } finally {
         setTimeout(() => {
           setIsLoading(false);
-        }, 2500);
+        }, 1000);
         // Set isLoading to false when the data is loaded or an error occurs.
       }
     };
@@ -96,6 +97,20 @@ export default function HomePage({ route }) {
       }
     }
   };
+
+  const filteredData = reports?.filter((item) => {
+    if (search == "") {
+      return item;
+    } else if (
+      item.date
+        .toString()
+        .toLowerCase()
+        .includes(search.toString().toLowerCase())
+    ) {
+      return item;
+    }
+    return 0;
+  });
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
@@ -200,6 +215,23 @@ export default function HomePage({ route }) {
               >
                 My Eye Reports
               </Text>
+              <TouchableOpacity
+                style={{
+                  marginLeft: "auto",
+                  padding: 5,
+                }}
+                onPress={() => navigation.navigate("All eye reports")}
+              >
+                <Text
+                  style={{
+                    color: "#071952",
+                    fontWeight: "bold",
+                    fontSize: 17,
+                  }}
+                >
+                  See All
+                </Text>
+              </TouchableOpacity>
               <View
                 style={{
                   flexDirection: "row",
@@ -207,36 +239,48 @@ export default function HomePage({ route }) {
                   paddingHorizontal: 10,
                   backgroundColor: "#EBE7E6",
                   borderRadius: 10,
-                  height: 40,
+                  height: 50,
                   marginVertical: 15,
                   marginHorizontal: 20,
                   elevation: 5,
                 }}
               >
-                <Ionicons
-                  name="search-outline"
-                  size={25}
-                  color="#BEBEBE"
+                <View
                   style={{
-                    width: 40,
-                    transform: [{ rotateY: "180deg" }],
+                    backgroundColor: "#fff",
+                    justifyContent: "center",
+                    borderRadius: 10,
+                    padding: 5,
                   }}
-                />
+                >
+                  <Ionicons
+                    name="search-outline"
+                    size={25}
+                    color="#BEBEBE"
+                    style={{
+                      // width: 40,
+                      alignContent: "center",
+                      justifyContent: "center",
+                      transform: [{ rotateY: "180deg" }],
+                    }}
+                  />
+                </View>
                 {/* <Icon name="search" type="font-awesome" /> */}
                 <TextInput
                   style={{
                     flex: 1,
-                    color: "#BEBEBE",
+                    color: "#000",
                     marginLeft: 15,
+                    fontSize: 18,
                   }}
                   placeholder="Search a Report"
                   // value={searchText}
-                  // onChangeText={(text) => setSearchText(text)}
+                  onChangeText={(text) => setSearch(text)}
                 />
               </View>
 
               <View>
-                {reports.map((item, index) => (
+                {filteredData.map((item, index) => (
                   <TouchableOpacity
                     key={index}
                     style={{
